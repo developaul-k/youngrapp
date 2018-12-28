@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Photo from '../../components/Photo';
 import {
     View,
     Text,
@@ -17,13 +18,17 @@ const FeedScreen = props => (
                 tintColor={"black"}
             />
         }
-        contentContainerStyle={styles.container}
-    />
+    >
+        <View style={styles.container}>
+            { props.feed && props.feed.map(photo => <Photo {...photo} key={photo.id} />) }
+        </View>
+    </ScrollView>
 );
 
 FeedScreen.propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    refresh: PropTypes.func.isRequired
+    refresh: PropTypes.func.isRequired,
+    feed: PropTypes.array.isRequired
 }
 
 const styles= StyleSheet.create({
