@@ -28,7 +28,7 @@ const FeedScreen = props => (
 FeedScreen.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     refresh: PropTypes.func.isRequired,
-    feed: PropTypes.array.isRequired
+    feed: PropTypes.array
 }
 
 const styles= StyleSheet.create({

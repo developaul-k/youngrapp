@@ -8,7 +8,11 @@ import { withNavigation } from 'react-navigation';
 const { width, height } = Dimensions.get("window");
 const Photo = props => (
 	<View style={styles.photo}>
-		<TouchableOpacity>
+		<TouchableOpacity onPress={ () =>
+			props.navigation.navigate('ProfileDetail', {
+				user: props.creator
+			})
+		}>
 			<View style={styles.header}>
 				<FadeIn>
 					<Image
@@ -31,7 +35,11 @@ const Photo = props => (
 			/>
 		</FadeIn>
 		<View style={styles.photoMeta}>
-			<PhotoActions isLiked={props.is_liked} likeCount={props.like_count} />
+			<PhotoActions
+				isLiked={props.isLiked}
+				likeCount={props.likeCount}
+				handlePress={props.handlePress}
+			/>
 			<View style={styles.comment}>
 				<Text style={styles.commentAuthor}>
 					{ props.creator.username }{" "}
@@ -135,7 +143,8 @@ Photo.propTypes = {
 	is_liked: PropTypes.bool.isRequired,
 	like_count: PropTypes.number.isRequired,
 	tags: PropTypes.array,
-	is_vertical: PropTypes.bool.isRequired
+	is_vertical: PropTypes.bool.isRequired,
+	handlePress: PropTypes.func.isRequired,
 }
 
 export default withNavigation(Photo);

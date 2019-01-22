@@ -10,15 +10,5 @@ const mapStateToProps = ( state, ownProps ) => {
         profile: user.profile
     }
 }
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        initApp: () => {
-            dispatch(photoActions.getFeed());
-            dispatch(photoActions.getSearch());
-            dispatch(userActions.getNotifications());
-            dispatch(userActions.getOwnProfile());
-        }
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)
+export default connect(mapStateToProps)(AppContainer)

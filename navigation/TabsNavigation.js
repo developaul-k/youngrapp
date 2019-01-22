@@ -31,9 +31,9 @@ const TabsNavigation = createBottomTabNavigator(
                 tabBarIcon: ({focused}) => {
                     return <Ionicons name="ios-add-circle-outline" size={30} color="black" />
                 },
-                // tabBarOnPress: ({navigation}) => {
-                //     navigation.navigate('TakePhoto')
-                // }
+                tabBarOnPress: ({navigation}) => {
+                    navigation.navigate('TakePhoto')
+                }
             }
         },
         Notifications: {
@@ -54,23 +54,24 @@ const TabsNavigation = createBottomTabNavigator(
         }
     },
     {
-        tabBarComponent: (props) => {
-            const {
-                jumpTo,
-                navigation
-            } = props;
+        // tabBarComponent: (props) => {
+        //     const {
+        //         jumpTo,
+        //         navigation
+        //     } = props;
 
-            return <BottomTabBar
-                {...props}
-                jumpTo={routeName => {
-                    if (routeName === 'AddPhoto') {
-                        navigation.navigate('TakePhoto');
-                    } else {
-                        jumpTo(routeName)
-                    }
-                }}
-            />
-        },
+        //     return <BottomTabBar
+        //         {...props}
+        //         jumpTo={routeName => {
+        //             if (routeName === 'AddPhoto') {
+        //                 navigation.navigate('TakePhoto');
+        //                 console.log(1)
+        //             } else {
+        //                 jumpTo(routeName)
+        //             }
+        //         }}
+        //     />
+        // },
         tabBarOptions: {
             showLabel: false,
             style: {

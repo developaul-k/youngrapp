@@ -59,6 +59,10 @@ function login(username, password) {
                 return false;
             }
         })
+        .catch(function(error) {
+            console.log(`There has been a problem with your fetch login : ${error.message}`);
+            throw error;
+        });
     }
 }
 
@@ -88,6 +92,10 @@ function facebookLogin() {
                     return false;
                 }
             })
+            .catch(function(error) {
+                console.log(`There has been a problem with your fetch facebookLogin : ${error.message}`);
+                throw error;
+            });
         }
     }
 }
@@ -99,13 +107,19 @@ function getNotifications(){
             headers: {
                 Authorization: `JWT ${token}`
             }
-        }).then(response => {
+        })
+        .then(response => {
             if ( response.status === 401 ) {
                 dispatch(logOut());
             } else {
                 return response.json();
             }
-        }).then(json => dispatch(setNotifications(json)))
+        })
+        .then(json => dispatch(setNotifications(json)))
+        .catch(function(error) {
+            console.log(`There has been a problem with your fetch getNotifications : ${error.message}`);
+            throw error;
+        });
     }
 }
 
@@ -116,13 +130,92 @@ function getOwnProfile() {
             headers: {
                 Authorization: `JWT ${token}`
             }
-        }).then(response => {
+        })
+        .then(response => {
             if ( response.status === 401 ) {
                 dispatch(logOut());
             } else {
                 return response.json();
             }
-        }).then(json => dispatch(setUser(json)))
+        })
+        .then(json => dispatch(setUser(json)))
+        .catch(function(error) {
+            console.log(`There has been a problem with your fetch getOwnProfile : ${error.message}`);
+            throw error;
+        });
+    }
+}
+
+function getProfile(username) {
+    return (dispatch, getState) => {
+        const { user: { token } } = getState();
+        return fetch(`${API_URL}/users/${username}/`, {
+            headers: {
+                Authorization: `JWT ${token}`
+            }
+        })
+        .then(response => {
+            if ( response.status === 401 ) {
+                dispatch(logOut());
+            } else {
+                return response.json();
+            }
+        })
+        .then(json => json)
+        .catch(function(error) {
+            console.log(`There has been a problem with your fetch getOwnProfile : ${error.message}`);
+            throw error;
+        });
+    }
+}
+
+function followUser(userId) {
+    return (dispatch, getState) => {
+        const { user: { token } } = getState();
+        return fetch(`${API_URL}/users/${userId}/follow/`, {
+            method: "POST",
+            headers: {
+                Authorization: `JWT ${token}`
+            },
+        })
+        .then(response => {
+            if (response.status === 401) {
+                dispatch(logOut());
+            } else if (response.ok) {
+                return true
+            } else if (!response.ok) {
+                return false
+            }
+        })
+        .catch(function(error) {
+            console.log(`There has been a problem with your fetch followUser : ${error.message}`);
+            throw error;
+        });
+    }
+}
+
+function unfollowUser(userId) {
+    return (dispatch, getState) => {
+        const { user: { token } } = getState();
+        return fetch(`${API_URL}/users/${userId}/unfollow/`, {
+            method: "POST",
+            headers: {
+                Authorization: `JWT ${token}`
+            },
+        })
+        .then(response => {
+            if (response.status === 401) {
+                dispatch(logOut());
+            } else if (response.ok) {
+                return true
+            } else if (!response.ok) {
+                return false
+            }
+        })
+        .catch(function(error) {
+            console.log(`There has been a problem with your fetch followUser : ${error.message}`);
+            throw error;
+        });
     }
 }
 
@@ -190,7 +283,10 @@ const actionCreators = {
     login,
     facebookLogin,
     getNotifications,
-    getOwnProfile
+    getOwnProfile,
+    followUser,
+    unfollowUser,
+    getProfile
 }
 
 export { actionCreators };

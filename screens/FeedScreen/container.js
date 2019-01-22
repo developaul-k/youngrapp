@@ -9,10 +9,16 @@ class Container extends Component {
 
     static propTypes = {
         feed: PropTypes.array,
-        getFeed: PropTypes.func.isRequired
+        getFeed: PropTypes.func.isRequired,
+        initApp: PropTypes.func.isRequired
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidMount = () => {
+        const { initApp } = this.props;
+        initApp();
+    };
+
+    componentWillReceiveProps = (nextProps) => {
         if (nextProps.feed) {
             this.setState({
                 isFetching: false
