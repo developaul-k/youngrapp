@@ -88,12 +88,20 @@ const Profile = props => (
             <View style={styles.modeBar}>
                 <TouchableOpacity onPressOut={ props.changeToGrid }>
                     <View style={styles.modeIcon}>
-                        <MaterialCommunityIcons name={'grid'} size={30} color={ props.mode === 'grid' ? '#3e99ee' : '#ddd' } />
+                        <MaterialCommunityIcons
+                            name={'grid'}
+                            size={30}
+                            color={ props.mode === 'grid' ? '#3e99ee' : '#ddd' }
+                        />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPressOut={ props.changeToList }>
                     <View style={styles.modeIcon}>
-                        <Feather name={'list'} size={38} color={ props.mode === 'list' ? '#3e99ee' : '#ddd' } />
+                        <Feather
+                            name={'list'}
+                            size={38}
+                            color={ props.mode === 'list' ? '#3e99ee' : '#ddd' }
+                        />
                     </View>
                 </TouchableOpacity>
             </View>
@@ -101,7 +109,7 @@ const Profile = props => (
                 <View style={styles.photoContainer}>
                     { props.profileObject.images &&
                         props.profileObject.images.map(photo => (
-                            <SquarePhoto key={photo.id} imageURL={photo.file} />
+                            <SquarePhoto key={photo.id} imageURL={photo.file} imageId={photo.id} />
                         )) }
                 </View>
             )}

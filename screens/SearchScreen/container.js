@@ -13,10 +13,12 @@ class Container extends Component {
     static propTypes = {
         getEmptySearch: PropTypes.func.isRequired,
         searchHashtag: PropTypes.func.isRequired,
-        search: PropTypes.array
+        search: PropTypes.array,
+        feed: PropTypes.array
     }
     static defaultProps = {
-        search: []
+        search: [],
+        feed: []
     }
     state = {
         searchingBy: "",

@@ -1,8 +1,13 @@
-import React from 'react';
-import {
-    Text
-} from 'react-native';
+import { connect } from 'react-redux';
+import Container from './container';
+import { actionCreators as photoActions } from '../../redux/modules/photos';
 
-const PhotoScreen = props => <Text>Photo Screen</Text>
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getImage: imageId => {
+            return dispatch(photoActions.getImage(imageId))
+        }
+    }
+}
 
-export default PhotoScreen;
+export default connect(null, mapDispatchToProps)(Container);

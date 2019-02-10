@@ -1,60 +1,66 @@
 import React from 'react';
-import { createMaterialTopTabNavigator, SafeAreaView } from 'react-navigation';
-import { Dimensions } from 'react-native';
-import CameraScreen from '../screens/CameraScreen';
-import LibraryScreen from '../screens/LibraryScreen';
-import { MaterialTopTabBar } from 'react-navigation-tabs';
+import {
+    createMaterialTopTabNavigator,
+    MaterialTopTabBar
+} from 'react-navigation';
+import {
+    View
+} from 'react-native';
+import {
+    Constants
+} from 'expo';
 
-const { width, height } = Dimensions.get('window');
-
-function MaterialTopTabBarWithStatusBar(props) {
-    return (
-    <SafeAreaView>
-        <MaterialTopTabBar {...props} jumpToIndex={() => {}} />
-    </SafeAreaView>
-    );
-}
+import CameraRoute from '../routes/CameraRoute';
+import LibraryRoute from '../routes/LibraryRoute';
 
 const AddPhotoNavigation = createMaterialTopTabNavigator(
     {
         Camera: {
-            screen: CameraScreen,
+            screen: CameraRoute,
             navigationOptions: {
-                tabBarLabel: 'Camera'
+                title: 'Camera'
             }
         },
         Library: {
-            screen: LibraryScreen,
+            screen: LibraryRoute,
             navigationOptions: {
-                tabBarLabel: 'Library'
+                title: 'Library'
             }
         }
     },
     {
-        initialRouteName: 'Library',
-        tabBarPosition: 'top',
+        tabBarPosition: 'bottom',
         swipeEnabled: true,
-        animationEnabled:true,
-        tabBarComponent: MaterialTopTabBarWithStatusBar,
+        animationEnabled: true,
         tabBarOptions: {
-            showLabel: true,
-            upperCaseLabel: true,
-            activeTintColor: 'black',
+            activeTintColor: '#000',
             inactiveTintColor: '#bbb',
             style: {
-                backgroundColor: 'white'
+                borderWidth: 0,
+                backgroundColor: '#fff'
             },
             tabStyle: {
-                alignItems: 'center',
+                borderWidth: 0,
+                backgroundColor: '#fff',
             },
             indicatorStyle: {
-                display: 'none'
+                borderWidth: 0
             },
             labelStyle: {
-                fontSize: 14,
-                fontWeight: '600'
-            },
-            showIcon: false
+                borderWidth: 0
+            }
+        },
+        tabBarComponent: props => {
+            return (
+                // Iphone X Supported
+                <View
+                    style={{
+                        paddingBottom: Constants.statusBarHeight > 43 ? Constants.statusBarHeight : 0
+                    }}
+                >
+                    <MaterialTopTabBar { ...props } />
+                </View>
+            )
         }
     }
 )

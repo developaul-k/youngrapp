@@ -46,6 +46,29 @@ function getFeed(){
     }
 }
 
+function getImage(imageId){
+    return (dispatch, getState) => {
+        const { user: { token } } = getState();
+        return fetch(`${API_URL}/images/${imageId}/`, {
+            headers: {
+                Authorization: `JWT ${token}`
+            }
+        })
+        .then(response => {
+            if ( response.status === 401 ) {
+                dispatch(userActions.logOut());
+            } else {
+                return response.json();
+            }
+        })
+        .then(json => json)
+        .catch(function(error) {
+            console.log(`There has been a problem with your fetch getImage : ${error.message}`);
+            throw error;
+        });
+    }
+}
+
 function getSearch(){
     return (dispatch, getState) => {
         const { user: { token } } = getState();
@@ -214,6 +237,7 @@ function applySetSearch(state, action) {
 // Exports
 const actionCreators = {
     getFeed,
+    getImage,
     getSearch,
     likePhoto,
     unlikePhoto,
