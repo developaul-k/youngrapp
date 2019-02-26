@@ -140,6 +140,24 @@ function likePhoto(photoId) {
     }
 }
 
+function getLikePhoto(photoId) {
+    return (dispatch, getState) => {
+        const { user: { token } } = getState();
+        return fetch(`${API_URL}/images/${photoId}/likes/`, {
+            method: "GET",
+            headers: {
+                Authorization: `JWT ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(function(error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+            throw error;
+        });
+    }
+}
+
 function unlikePhoto(photoId) {
     return (dispatch, getState) => {
         const { user: { token } } = getState();
@@ -242,7 +260,8 @@ const actionCreators = {
     likePhoto,
     unlikePhoto,
     searchByHashtag,
-    uploadPhoto
+    uploadPhoto,
+    getLikePhoto
 }
 
 export { actionCreators };

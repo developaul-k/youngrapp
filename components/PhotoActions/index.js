@@ -17,13 +17,29 @@ const PhotoActions = props => (
                     <Ionicons name={ props.isLiked ? "ios-heart" : "ios-heart-empty" } size={30} color={ props.isLiked ? "#eb4b59" : "black" } />
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity onPressOut={ () => props.navigation.navigate("Comments") }>
-                <View style={styles.ction}>
-                    <Ionicons name="ios-text" size={30} color="black" />
-                </View>
-            </TouchableOpacity>
+            { props.comments.length > 0 ? (
+                <TouchableOpacity onPressOut={ () =>
+                    props.navigation.navigate("Comments", {
+                        userInfo: {
+                            creator: props.creator,
+                            message: props.caption
+                        },
+                        comments: props.comments
+                    })
+                }>
+                    <View style={styles.action}>
+                        <Ionicons name="ios-text" size={30} color="black" />
+                    </View>
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity>
+                    <View style={styles.action}>
+                        <Ionicons name="ios-text" size={30} color="black" />
+                    </View>
+                </TouchableOpacity>
+            ) }
         </View>
-        <TouchableOpacity onPressOut={ () => props.navigation.navigate("Likes") }>
+        <TouchableOpacity onPressOut={ () => props.navigation.navigate("Likes", { photoId: props.photoId }) }>
             <View>
                 <Text style={styles.likes}>{ props.likeCount } { props.likeCount === 1 ? "like": "likes" }</Text>
             </View>

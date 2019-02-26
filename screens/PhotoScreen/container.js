@@ -10,7 +10,8 @@ import Photo from '../../components/Photo';
 
 class Container extends Component {
     state = {
-        photoObject: null
+        photoObject: null,
+        isFetching: false
     }
     render() {
         return (
@@ -18,8 +19,8 @@ class Container extends Component {
                 <ScrollView
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.props.isFetching}
-                            onRefresh={this.props.refresh}
+                            refreshing={this.state.isFetching}
+                            onRefresh={this._refresh}
                             tintColor={"black"}
                             titleColor={"black"}
                         />
@@ -28,22 +29,38 @@ class Container extends Component {
                     {
                         this.state.photoObject !== null && <Photo {...this.state.photoObject} />
                     }
+                    { console.log( this.state.photoObject ) }
                 </ScrollView>
             </View>
         )
     }
 
     componentDidMount = () => {
-        this._getImage();
+        this._refresh();
     }
 
-    _getImage = async() => {
-        const { getImage, navigation: { state: { params: { imageId } } } } = this.props;
+    _refresh = async() => {
+        const {
+            getImage,
+            navigation: {
+                state: {
+                    params: {
+                        imageId
+                    }
+                }
+            }
+        } = this.props;
+
+        this.setState({
+            isFetching: true
+        })
+
         const completeImage = await getImage(imageId);
 
-        if (completeImage.id) {
+        if ( completeImage.id ) {
             this.setState({
-                photoObject: completeImage
+                photoObject: completeImage,
+                isFetching: false
             })
         }
     }

@@ -6,61 +6,76 @@ import PhotoActions from '../PhotoActions';
 import { withNavigation } from 'react-navigation';
 
 const { width, height } = Dimensions.get("window");
-const Photo = props => (
-	<View style={styles.photo}>
-		<TouchableOpacity onPress={ () =>
-			props.navigation.navigate('ProfileDetail', {
-				user: props.creator
-			})
-		}>
-			<View style={styles.header}>
-				<FadeIn>
-					<Image
-						source={ props.creator.profile_image ? {
-							uri: props.creator.profile_image
-						} : require('../../assets/images/noPhoto.jpg') }
-						style={styles.avatar}
-					/>
-				</FadeIn>
-				<View>
-					<Text style={styles.author}>{props.creator.username}</Text>
-					{ props.location && <Text style={styles.location}>{props.location}</Text> }
-				</View>
-			</View>
-		</TouchableOpacity>
-		<FadeIn>
-			<Image
-				source={{ uri: props.file }}
-				style={{ width, height: props.is_vertical ? 600 : 300 }}
-			/>
-		</FadeIn>
-		<View style={styles.photoMeta}>
-			<PhotoActions
-				isLiked={props.isLiked}
-				likeCount={props.likeCount}
-				handlePress={props.handlePress}
-			/>
-			<View style={styles.comment}>
-				<Text style={styles.commentAuthor}>
-					{ props.creator.username }{" "}
-					<Text style={styles.message}>{ props.caption }</Text>
-				</Text>
-			</View>
-			{ props.comments.length > 0 && (
-				<TouchableOpacity onPressOut={ () => props.navigation.navigate("Comments") }>
-					<View style={styles.commentsLink}>
-						{props.comments.length === 1 ? (
-							<Text style={styles.linkText}>View 1 comment</Text>
-						) : (
-							<Text style={styles.linkText}>View all {props.comments.length} comments</Text>
-						)}
+const Photo = props => {
+	const { creator } = props;
+	return (
+		<View style={styles.photo}>
+			<TouchableOpacity onPress={ () =>
+				props.navigation.navigate('ProfileDetail', {
+					user: props.creator
+				})
+			}>
+				<View style={styles.header}>
+					<FadeIn>
+						<Image
+							source={ props.creator.profile_image ? {
+								uri: props.creator.profile_image
+							} : require('../../assets/images/noPhoto.jpg') }
+							style={styles.avatar}
+						/>
+					</FadeIn>
+					<View>
+						<Text style={styles.author}>{props.creator.username}</Text>
+						{ props.location && <Text style={styles.location}>{props.location}</Text> }
 					</View>
-				</TouchableOpacity>
-			) }
-			<Text style={styles.dateText}>{ props.natural_time.toUpperCase() }</Text>
+				</View>
+			</TouchableOpacity>
+			<FadeIn>
+				<Image
+					source={{ uri: props.file }}
+					style={{ width, height: props.is_vertical ? 600 : 300 }}
+				/>
+			</FadeIn>
+			<View style={styles.photoMeta}>
+				<PhotoActions
+					isLiked={props.isLiked}
+					likeCount={props.likeCount}
+					handlePress={props.handlePress}
+					comments={ props.comments }
+					creator={ props.creator }
+					caption={ props.caption }
+					photoId={ props.id }
+				/>
+				<View style={styles.comment}>
+					<Text style={styles.commentAuthor}>
+						{ props.creator.username }{" "}
+						<Text style={styles.message}>{ props.caption }</Text>
+					</Text>
+				</View>
+				{ props.comments.length > 0 && (
+					<TouchableOpacity onPressOut={ () =>
+						props.navigation.navigate("Comments", {
+							userInfo: {
+								creator,
+								message: props.caption
+							},
+							comments: props.comments
+						}) }
+					>
+						<View style={styles.commentsLink}>
+							{props.comments.length === 1 ? (
+								<Text style={styles.linkText}>View 1 comment</Text>
+							) : (
+								<Text style={styles.linkText}>View all {props.comments.length} comments</Text>
+							)}
+						</View>
+					</TouchableOpacity>
+				) }
+				<Text style={styles.dateText}>{ props.natural_time.toUpperCase() }</Text>
+			</View>
 		</View>
-	</View>
-)
+	)
+}
 
 const styles = StyleSheet.create({
 	photo: {
