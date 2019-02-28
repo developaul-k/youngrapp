@@ -2,6 +2,13 @@ import { connect } from 'react-redux';
 import Container from './container';
 import { actionCreators as photoActions } from '../../redux/modules/photos';
 
+const mapStateToProps = (state, ownProps) => {
+    const { photos: { likes } } = state;
+    return {
+        likes
+    }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getLikePhoto: ( photoId ) => {
@@ -10,4 +17,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

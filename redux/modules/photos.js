@@ -6,12 +6,20 @@ import { actionCreators as userActions } from './user';
 // Actions
 const SET_FEED = "SET_FEED";
 const SET_SEARCH = "SET_SEARCH";
+const SET_LIKE = "SET_LIKE";
 
 // Action Creators
 function setFeed(feed){
     return {
         type: SET_FEED,
         feed
+    }
+}
+
+function setLikes(likes) {
+    return {
+        type: SET_LIKE,
+        likes
     }
 }
 
@@ -150,7 +158,7 @@ function getLikePhoto(photoId) {
             }
         })
         .then(response => response.json())
-        .then(json => console.log(json))
+        .then(json => dispatch( setLikes(json) ))
         .catch(function(error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
             throw error;
@@ -229,6 +237,8 @@ function reducer(state = initialState, action) {
             return applySetFeed(state, action);
         case SET_SEARCH:
             return applySetSearch(state, action);
+        case SET_LIKE:
+            return applySetLike(state, action);
         default:
             return state;
     }
@@ -249,6 +259,14 @@ function applySetSearch(state, action) {
     return {
         ...state,
         search
+    }
+}
+
+function applySetLike(state, action) {
+    const { likes } = action;
+    return {
+        ...state,
+        likes
     }
 }
 

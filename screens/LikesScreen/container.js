@@ -12,12 +12,27 @@ class Container extends Component {
     }
 
     componentDidMount = () => {
-        const { getLikePhoto, navigation: { state: { params: { photoId } } } } = this.props;
-        getLikePhoto(photoId)
+        this._refresh();
     };
 
+    componentWillReceiveProps = nextProps => {
+        if ( nextProps.likes ) {
+            this.setState({
+                isFetching: false
+            })
+        }
+    }
+
     render() {
-        return <LikesScreen />
+        return <LikesScreen { ...this.state } { ...this.props } refresh={ this._refresh } />
+    }
+
+    _refresh = () => {
+        const { getLikePhoto, navigation: { state: { params: { photoId } } } } = this.props;
+        this.setState({
+            isFetching: true
+        })
+        getLikePhoto(photoId);
     }
 }
 
