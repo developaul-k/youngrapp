@@ -134,8 +134,10 @@ class CameraScreen extends Component {
         if (!pictureTaken) {
             if (this.camera) {
                 const takenPhoto = await this.camera.takePictureAsync({
+                    base64: true,
                     quality: 0.5,
-                    exif: true
+                    exif: true,
+                    skipProcessing: true
                 })
                 this.setState({
                     picture: takenPhoto.uri,

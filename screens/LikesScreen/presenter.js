@@ -22,7 +22,7 @@ const LikesScreen = props => {
             }
         >
             <View style={ styles.container }>
-                { props.likes.length > 0 ? (
+                { props.likes && ( props.likes.length > 0 ) ? (
                     props.likes.map( like => (
                         <View style={ styles.likeList } key={ like.id }>
                             <View style={ styles.userInfo }>

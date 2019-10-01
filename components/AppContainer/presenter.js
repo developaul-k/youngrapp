@@ -5,28 +5,28 @@ import LoggedOutNavigation from '../../navigation/LoggedOutNavigation';
 import RootNavigation from '../../navigation/RootNavigation';
 
 class AppContainer extends Component {
-    static propTypes = {
-		isLoggedIn: PropTypes.bool.isRequired
-	};
-    render() {
-		const { isLoggedIn, profile } = this.props;
-        return (
-            <View style={styles.container}>
-				<StatusBar hidden={false} />
-				{ isLoggedIn && profile ? (
-					<RootNavigation screenProps={{ username: profile.username }} />
-				) : (
-					<LoggedOutNavigation />
-				) }
-			</View>
-        )
-    }
+  static propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired
+  };
+  render() {
+    const { isLoggedIn, profile } = this.props;
+    return (
+      <View style={styles.container}>
+        <StatusBar hidden={false} />
+        {isLoggedIn && profile ? (
+          <RootNavigation screenProps={{ username: profile.username }} />
+        ) : (
+          <LoggedOutNavigation />
+        )}
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1
-	}
+  container: {
+    flex: 1
+  }
 });
 
 export default AppContainer;
